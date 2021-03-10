@@ -1,0 +1,132 @@
+\documentclass{article}
+\usepackage{filecontents}
+\usepackage{pgfplots, pgfplotstable}
+\usepackage{tikz}
+\usepackage{subcaption}
+
+\begin{document}
+
+    % Graph source: https://tex.stackexchange.com/questions/103118/automatic-calculation-of-error-in-pgfplots
+
+    %% Code chunk for statistics starts here...
+    \newcommand{\calcrowmean}{
+        \def\rowmean{0}
+        \pgfmathparse{\pgfkeysvalueof{/pgfplots/table/summary statistics/end index}-\pgfkeysvalueof{/pgfplots/table/summary statistics/start index}+1}
+        \edef\numberofcols{\pgfmathresult}
+                % ... loop over all columns, summing up the elements
+        \pgfplotsforeachungrouped \col in {\pgfkeysvalueof{/pgfplots/table/summary statistics/start index},...,\pgfkeysvalueof{/pgfplots/table/summary statistics/end index}}{
+            \pgfmathparse{\rowmean+\thisrowno{\col}/\numberofcols}
+            \edef\rowmean{\pgfmathresult}
+        }
+    }
+    \newcommand{\calcstddev}{
+        \def\rowstddev{0}
+        \calcrowmean
+        \pgfplotsforeachungrouped \col in {\pgfkeysvalueof{/pgfplots/table/summary statistics/start index},...,\pgfkeysvalueof{/pgfplots/table/summary statistics/end index}}{
+            \pgfmathparse{\rowstddev+(\thisrowno{\col}-\rowmean)^2/(\numberofcols-1)}
+            \edef\rowstddev{\pgfmathresult}
+        }
+        \pgfmathparse{sqrt(\rowstddev)}
+    }
+    \newcommand{\calcstderror}{
+        \calcrowmean
+        \calcstddev
+        \pgfmathparse{sqrt(\rowstddev)/sqrt(\numberofcols)}
+    }
+
+    \pgfplotstableset{
+        summary statistics/start index/.initial=1,      % Data starts at column 1! (second column in table, first is rehost attempt #)
+        summary statistics/end index/.initial=4,        % IMPORTANT: Data ends at column X (default is 100 rehost attempts! Adjust accordingly)
+        create col/mean/.style={
+            /pgfplots/table/create col/assign/.code={% In each row ...
+                \calcrowmean
+                \pgfkeyslet{/pgfplots/table/create col/next content}\rowmean
+            }
+        },
+        create col/standard deviation/.style={
+            /pgfplots/table/create col/assign/.code={% In each row ...
+                \calcstddev
+                \pgfkeyslet{/pgfplots/table/create col/next content}\pgfmathresult
+            }
+        },
+        create col/standard error/.style={
+            create col/assign/.code={% In each row ...
+                \calcstderror
+                \pgfkeyslet{/pgfplots/table/create col/next content}\pgfmathresult
+            }
+        }
+    }
+    %%...code chunk for statistics ends here
+
+    \pgfplotstableset{
+            create on use/mean/.style={create col/mean},
+            create on use/stddev/.style={create col/standard deviation},
+            create on use/stderror/.style={create col/standard error}
+    }
+
+    \begin{figure*}
+    \centering
+    \captionsetup{justification=centering}
+    \begin{minipage}[b]{.49\textwidth}
+
+        \begin{tikzpicture}
+        \begin{axis}[
+            grid=major,
+            ylabel style={align=center}, ylabel=$|P_{u}|$ Mean and StdDev\\(1000 Simulations),
+            xlabel style={align=center}, xlabel=Rehost Attempt Number (100 DTBs),
+            width=\textwidth,
+            height=\axisdefaultheight,
+            mark size = 0.75pt
+            ]
+            \addplot+[
+                    smooth,
+                    error bars/.cd,
+                y dir=both,
+                y explicit,
+                error bar style={black}
+            ]
+            table[
+                    y=mean,
+                    y error=stddev
+            ]
+            {monte_unimp_per_rehost.dat}; % IMPORTANT: Specifies data source
+        \end{axis}
+        \end{tikzpicture}
+        \caption{Mean $|P_{u}|$ per Rehost Attempt\\
+            (e.g. unimplemented peripherals per DTB))}
+        \label{fig:monte_P_u}
+
+    \end{minipage}\hfill
+    \begin{minipage}[b]{.49\textwidth}
+
+        \begin{tikzpicture}
+        \begin{axis}[
+            grid=major,
+            ylabel style={align=center}, ylabel=$|P_{m}|$ Mean and StdDev\\(1000 Simulations),
+            xlabel style={align=center}, xlabel=Rehost Attempt Number (100 DTBs),
+            width=\textwidth,
+            height=\axisdefaultheight,
+            mark size = 0.75pt
+            ]
+            \addplot+[
+                    smooth,
+                    error bars/.cd,
+                y dir=both,
+                y explicit,
+                error bar style={black}
+            ]
+            table[
+                    y=mean,
+                    y error=stddev
+            ]
+            {monte_totals_per_rehost.dat}; % IMPORTANT: Specifies data source
+        \end{axis}
+        \end{tikzpicture}
+        \caption{Mean $|P_{m}|$ per Rehost Attempt\\
+            (e.g. running total of peripherals implemented)}
+        \label{fig:monte_P_m}
+
+    \end{minipage}
+    \end{figure*}
+
+\end{document}

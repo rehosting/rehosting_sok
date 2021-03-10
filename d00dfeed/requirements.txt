@@ -1,0 +1,8 @@
+fdt==0.2.0
+matplotlib==3.3.4
+pandas==1.2.3
+fuzzywuzzy==0.18.0
+python-Levenshtein==0.12.2
+pygount==1.2.4
+coloredlogs==15.0
+mypy==0.812
