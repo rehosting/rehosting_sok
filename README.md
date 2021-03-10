@@ -1,9 +1,9 @@
 # Rehosting SoK Repeatable Experiments
 
-This repository contains code allowing anyone to replicate the empirical backbone of our paper AsiaCCS 2021 paper, `SoK: Enabling Security Analyses of Embedded Systems via Rehosting`.
+This repository contains code allowing anyone to replicate the empirical backbone of our AsiaCCS 2021 paper, `SoK: Enabling Security Analyses of Embedded Systems via Rehosting`.
 
 Prior firmware measurement studies used web crawlers to collect publicly available firmware images.
-These approaches are difficult to reproduce as copyright restrictions prevent corpora distributed and link rot prevents crawlers from running successfully after release.
+These approaches are difficult to reproduce as copyright restrictions prevent corpora distribution and link rot prevents crawlers from running successfully after paper release.
 By contrast, our experiments are fully containerized and fully reproducible.
 
 To build the container:
@@ -20,9 +20,9 @@ docker run --rm -it rehosting_sok
 
 ## Replicates the Paper's DTB Results
 
-At creation time, the container will build 1956 DTBs from source, run unit tests to verify parsing logic is functional, and computed JSON summaries for every DTB.
+At creation time, the container will build 1956 DTBs from source, run unit tests to verify DTB processing logic is functional, and compute JSON summaries for every DTB.
 You are ready to replicate paper results.
-The below steps will print the raw counts to the terminal, to see the generated graphs (PNG images) you'll need to setup X11 forwarding to the Docker container (outside the scope of this tutorial).
+The below steps will print the raw metrics to the terminal, to see the generated graphs (PNG images) you'll need to setup X11 forwarding to the Docker container (outside the scope of this tutorial).
 
 ### Replicating Table 1 (Observed CPU models supported by QEMU versions)
 
@@ -85,3 +85,7 @@ python3 dat_metrics.py
 ## Replicates the Paper's SVD Results
 
 TODO: Andrew add equivalent instruction here, Tiemoko hasn't looked at the SVD code.
+
+## Citation BibTex
+
+TODO: Add here

@@ -7,7 +7,7 @@ Analysis is a 3 sage pipeline:
 3. Process JSONs to answer a particular question, graph results
 
 Steps 1 and 2 are done for you during container build.
-See this repo's main readme for examples of step 3.
+See this repo's [main README](../README.md) for examples of step 3.
 
 ## Tests
 
