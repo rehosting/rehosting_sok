@@ -18,7 +18,7 @@ To connect to the container:
 docker run --rm -it rehosting_sok
 ```
 
-## Replicates the Paper's DTB Results
+## Replicate the Paper's DTB Results
 
 At creation time, the container will build 1956 DTBs from source, run unit tests to verify DTB processing logic is functional, and compute JSON summaries for every DTB.
 You are ready to replicate paper results.
@@ -82,9 +82,9 @@ cd /rehosting_sok/d00dfeed/analyses/monte_carlo_sim
 python3 dat_metrics.py
 ```
 
-## Replicates the Paper's SVD Results
+## Replicate the Paper's SVD Results
 
-TODO: Andrew add equivalent instruction here, Tiemoko hasn't looked at the SVD code.
+TODO: Andrew please add equivalent instructions here and code to `./svd`, Tiemoko hasn't looked at the SVD code.
 
 ## Citation BibTex
 
