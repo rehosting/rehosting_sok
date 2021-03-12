@@ -49,14 +49,14 @@ python3 graph_peripherals_by_arch.py ../dtb_json_stats/
 
 ### Replicating Table 3 (SLOC for open-source device drivers)
 
-Device driver columns:
+Both device driver columns:
 
 ```
 cd /rehosting_sok/d00dfeed/analyses
 python3 graph_dd_sloc_by_arch.py ../dtb_json_stats/
 ```
 
-SoC columns:
+SoC SLOC column (count column comes from table 2A):
 
 ```
 cd /rehosting_sok/d00dfeed/analyses

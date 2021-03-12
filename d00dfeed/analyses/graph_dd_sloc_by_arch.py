@@ -97,6 +97,10 @@ if __name__ == "__main__":
     ac.print_mean_median_std_dev_for_dict_of_lists(sloc_list_by_arch,
         "\nSloc Per Driver, format: [arch : (mean, median, std_dev)]\n")
 
+    print("\nCount of open-source peripheral drivers by architecture:")
+    for arch in cmp_by_arch:
+        print(f"{arch}: {len([cmp_str for cmp_str in cmp_by_arch[arch] if cmp_str in open_drivers_all])}")
+
     # Build graph 1 - count of open-source drivers by architecture
     ac.graph_simple_bar(
         [arch for arch in cmp_by_arch],
