@@ -90,7 +90,7 @@ root@container# python3 svd_analysis.py
 ```
 
 ### Analyze SVD data
-The script `svd_periph_count` will print the number of total peripherals described in the SVD corpus and calculate statistics per silicon vendor.
+The script `svd_periph_count.py` will print the number of total peripherals described in the SVD corpus and calculate statistics per silicon vendor.
 
 The script `svd_analysis.py` will populate the SQLite database `svd.db` with information on each SoC and peripheral. The script will also store the result of the Monte Carlo simulation in a file name `svd_unimp_per_rehost_all.csv`.
 

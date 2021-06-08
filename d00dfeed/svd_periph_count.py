@@ -15,16 +15,20 @@ if os.path.isfile(cache_file):
         periph_count = pickle.load(f)
 else:
     periph_count = {}
-    svd_files = Path("cmsis-svd/data/").glob("**/*.svd")
+    svd_files = Path("../cmsis-svd/data/").glob("**/*.svd")
     for f in svd_files:
         vendor = f.parts[-2]
         parser = SVDParser.for_xml_file(f)
-        device = parser.get_device()
+        try:
+            device = parser.get_device()
+        except (TypeError, KeyError):
+            # cmsis-svd can't parse all the files in its corpus
+            print(f"Error parsing SVD file {f} - skipping")
+            continue
 
         if vendor not in periph_count:
             periph_count[vendor] = []
 
-        print(device.name)
         periph_count[vendor].append(len(device.peripherals)) # TODO: only count distinct peripherals within that family
 
     with open(cache_file, "wb") as f:
