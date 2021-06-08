@@ -6,3 +6,7 @@ python-Levenshtein==0.12.2
 pygount==1.2.4
 coloredlogs==15.0
 mypy==0.812
+
+# SVD parsing
+peewee==3.11.2
+strsimpy==0.1.3
